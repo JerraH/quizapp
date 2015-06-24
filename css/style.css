@@ -1,0 +1,130 @@
+html {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  -webkit-box-sizing: inherit;
+  -moz-box-sizing: inherit;
+  box-sizing: inherit;
+  }
+
+.navbar {
+	background-image: url(../images/bannertop.png);
+	background-size:auto;
+	background-position:center;
+	background-repeat:no-repeat;
+	height:22.5vh;
+	width:100vw;
+	position: absolute;
+	margin: 0;
+	margin-top:-2%;
+	z-index:990;
+
+}
+
+.navwhite {
+	background-image: url(../images/title.png);
+	z-index:998;
+	width:48vw;
+	height:22.5vh;
+	background-size:100% 100%;
+	background-repeat:no-repeat;
+	margin-left:17%;
+	margin-top:0;
+}
+
+#lily {
+	position:absolute;
+	z-index:999;
+	margin-left:14%;
+	margin-top:5%;
+}
+
+.centerdiv {
+	background-image: url(../images/centerthing.png);
+	width:100%;
+	height:100%;
+	background-size:100% 100%;
+	background-repeat:no-repeat;
+	position:relative;
+}
+
+.qdiv {
+	height:56vh;
+	width:43vw;
+	margin-left:21%;
+}
+
+.qdiv, .adiv {
+	position:relative;
+}
+
+.adiv {
+	height:40vh;
+	width:43vw;
+	margin-left:21%;
+	
+}
+
+.statusdiv {
+	background-image: url(../images/statusdiv.png);
+}
+
+.content {
+	background-image: url(../images/bg.png);
+	background-size: 100% 100%;
+	height:100vh;
+}
+
+body {
+	background-color: #fefef8;
+	margin:0;
+	padding:0;
+}
+
+.answers {
+	position:relative;
+	width:70%;
+	height:40vh;
+	margin-left:auto;
+	margin-right:auto;
+	margin-top:5%;
+	vertical-align:center;
+	display:none;
+}
+
+.answerbox {
+	border: solid 2px #e13261;
+	border-radius:30px;
+	background:none;
+	position:relative;
+	margin-bottom:2%;
+	margin-right:2%;
+	display:inline-block;
+	z-index:10;
+	width:45%;
+	height:25%;
+}
+
+#q2, #q3, #q4, #q5, #q6, #q7, #q8, #q9, #q10 {
+	display: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
