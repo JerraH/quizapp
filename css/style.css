@@ -39,7 +39,7 @@ html {
 	position:absolute;
 	z-index:999;
 	margin-left:14%;
-	margin-top:5%;
+	bottom:-35%;
 }
 
 .centerdiv {
@@ -110,6 +110,48 @@ body {
 
 #q2, #q3, #q4, #q5, #q6, #q7, #q8, #q9, #q10 {
 	display: none;
+}
+
+.yesbutton {
+	background-image: url(../images/yesbutton.png);
+	width:20%;
+	height:30%;
+	background-size:100% 100%;
+	background-repeat:no-repeat;
+	position:absolute;
+	margin-top:50vh;
+	margin-left:31%;
+	z-index:999;
+}
+
+.yesbutton p {
+	position:relative;
+	margin:auto;
+	text-align:center;
+	font-size:8vh;
+	padding-top:20%;
+}
+
+.beginQuestion {
+	width:90%;
+	position:absolute;
+	height:60%;
+	font-size:8vh;
+	z-index:10;
+	bottom:0;
+	margin:auto;
+	text-align:center;
+}
+
+.question {
+	width:90%;
+	position:absolute;
+	height:60%;
+	font-size:6vh;
+	z-index:10;
+	bottom:0;
+	margin:auto;
+	text-align:center;
 }
 
 
