@@ -23,10 +23,6 @@ var first = makeQ("What temperature basking spot does a ball python need?", "90 
  ninth = makeQ("How long should you avoid handling them after they've eaten?", "About 48 hours", 9),
  tenth = makeQ("What is the minimum cage size for an adult BP?", "40 gal", 10);
 
- var allQ = [first, second, third, fourth, fifth, sixth, seventh, eighth, ninth, tenth];
-
-
-console.log(first.answer);
 
 	var answers1 = ["90 deg", "85 deg", "80 deg", "95 deg"],
 	answers2 = ["50%", "60%", "30%", "20%"],
@@ -41,52 +37,93 @@ console.log(first.answer);
 	answers9 = ["About 24 hours", "About a week", "About 48 hours", "As long as it takes them to eat their food"],
 	answers10 = ["40 gal", "30 gal", "80 gal", "10 gal"];
 
+var allQ = [first, second, third, fourth, fifth, sixth, seventh, eighth, ninth, tenth];
 var allAns = [answers1, answers2, answers3, answers4, answers5, answers6, answers7, answers8, answers9, answers10];
-	
 
-	function nextQ() {
-		for (var i = 0; i < allQ.length; i++) { 
-			$('.question').text(allQ[i].question)
-		};
+
+
+// setting variables to refer to the array of questions and of answers
+// iQ must start at 0 to be used in the nextQ and nextA functions	
+var iQ = 0,
+currentQ = allQ[iQ],
+currentA = allAns[iQ],
+$yesBut = $('.yesbutton'),
+$ans = $('.answers'),
+$this = $(this);
+
+
+// this function sets the text of 'question' to be the next question in line
+function nextQ() {
+	if (iQ < allQ.length) {
+		$('.question').text(currentQ.question);
 	};
 
-	var $ansbox = $('.answerbox'),
-	$this = $('this');
+};
+
+function shuffle(array) {
+	array.sort(function() { return 0.5 - Math.random() });
+};
+
+function clear() {
+	$('.answerbox').remove();
+};
 
 
-	$('.yesbutton').mousedown(function() {
+function nextA() {
+	if (iQ < allAns.length) {
+		clear();
+		shuffle(currentA);
+		var i = 0;
+		while (i < 4) {
+			$ans.append('<button class="answerbox">' + currentA[i] + '</button>');
+			i++;
+		};	
+	};
+};
+
+
+
+function moveOn(div, clickable) {
+	$(div).on('click', clickable, function() {
+		nextQ();
+		nextA();
+		if ($yesBut.show()) {
+		$yesBut.hide();
+		$('.beginQuestion').hide();
 		$('.question').show();
 		$('.answers').show();
-		$ansbox.show();
-		$('.yesbutton').hide();
-		$('.beginQuestion').hide();
-			nextQ();
-			$ansbox.each(function(i) {
-				$this.text((allAns[0])[i]);
-				console.log((allAns[0])[i] )
-				i++;
-			});
-
+	};
+	iQ++;
 	});
+console.log(iQ);
+};
 
-var currentQ = first;
-// var nextQ = currentQ's position in allQ + 1 
-	$('.answers').on('click', '.answerbox', function() {
+
+moveOn('.content', '.yesbutton');
+
+
 	
 
-
-		var chosen = $('this').find('p').val();
-		if (chosen == currentQ.answer) {
-			console.log("Correct!");
+// var nextQ = currentQ's position in allQ + 1 
+	$ans.on('click', '.answerbox', function() {
+		if ($(this).text() == currentQ.answer) {
+			alert('Correct!');
 		}
 		else {
-			console.log("Wrong!");
-};
-		$('.question').text(nextQ.question);
-		// currentQ = position in allQ + 1
-
+			alert('Incorrect :(');
+		};
+		console.log('prior to next increment, ' + iQ + ' is iQ.');
+		currentQ = allQ[iQ];
+		currentA = allAns[iQ];
+		nextQ();
+		nextA();
+		iQ++;
+		console.log(iQ);
 		
+
 	});
+
+
 	});
 
 
