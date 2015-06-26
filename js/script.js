@@ -68,7 +68,8 @@ $this = $(this),
 $pC = $('.percentCorrect'),
 $bar = $('.bar'),
 $fraction = $('.fraction'),
-$percent = $('.percent');
+$percent = $('.percent'),
+$statusBar = $('.statusBar');
 
 								// MAKING FUNCTIONS
 
@@ -84,7 +85,7 @@ function clear() {
 
 // give me the next question!
 function nextQ() {
-	if (iQ < allQ.length) {
+	if (iQ <= allQ.length) {
 		$('.beginQuestion').text(currentQ.question);
 	};
 
@@ -92,7 +93,7 @@ function nextQ() {
 
 // give me the next answers!
 function nextA() {
-	if (iQ < allAns.length) {
+	if (iQ <= allAns.length) {
 		clear();
 		shuffle(currentA);
 		var i = 0;
@@ -120,18 +121,67 @@ function update() {
 		};
 };
 
+var delay;
+
 //we want this to be separate from main update so that  it starts as soon as you click your answer
 function barUpdate() {
-	$bar.animate({
-		width: percentCorrect + '%'}, 800, function() {});
 	// changes the color of the background depending on the percent
-	if (percentCorrect >= 65 || percentCorrect == NaN) {
-		$bar.animate({
-			backgroundColor: 'green'}, 800);
-	}
-	else if (percentCorrect <= 65 && isNaN(percentCorrect) != true) {
-		$bar.animate({
-		backgroundColor: '#e13261'}, 800);
+	if (Math.abs(($bar.width()/$statusBar.width()) - percentCorrect) == 100 ) {
+		if (percentCorrect >= 65 || percentCorrect == NaN) {
+			$bar.animate({
+				backgroundColor: 'green',
+				width: percentCorrect + '%'
+			}, 3000);
+		}
+		else if (percentCorrect <= 65 && isNaN(percentCorrect) != true) {
+			$bar.animate({
+			backgroundColor: '#e13261',
+			width: percentCorrect + '%'}, 3000);
+			};
+			delay = 3000;
+		}
+	else if (Math.abs(($bar.width()/$statusBar.width()) - percentCorrect) >= 30) {
+		if (percentCorrect >= 65 || percentCorrect == NaN) {
+			$bar.animate({
+				backgroundColor: 'green',
+				width: percentCorrect + '%'
+			}, 1500);
+		}
+		else if (percentCorrect <= 65 && isNaN(percentCorrect) != true) {
+			$bar.animate({
+			backgroundColor: '#e13261',
+			width: percentCorrect + '%'}, 1500);
+			};
+			delay = 1500;
+		}
+	else if (Math.abs(($bar.width()/$statusBar.width()) - percentCorrect) >= 10) {
+		if (percentCorrect >= 65 || percentCorrect == NaN) {
+			$bar.animate({
+				backgroundColor: 'green',
+				width: percentCorrect + '%'
+			}, 700);
+		}
+		else if (percentCorrect <= 65 && isNaN(percentCorrect) != true) {
+			$bar.animate({
+			backgroundColor: '#e13261',
+			width: percentCorrect + '%'}, 700);
+			};
+			delay = 700;
+		}
+		
+	else  {
+		if (percentCorrect >= 65 || percentCorrect == NaN) {
+			$bar.animate({
+				backgroundColor: 'green',
+				width: percentCorrect + '%'
+			}, 300);
+		}
+		else if (percentCorrect <= 65 && isNaN(percentCorrect) != true) {
+			$bar.animate({
+			backgroundColor: '#e13261',
+			width: percentCorrect + '%'}, 300);
+			};
+			delay = 300;
 		};
 };
 
@@ -168,9 +218,9 @@ function setCurrent() {
 		percentCorrect = parseInt((numCorrect/total)*100);
 };
 // want the change to take a bit so you can see whether your answer is correct or not
-function delayedQ() {window.setTimeout(nextQ, 900)};
-function delayedA() {window.setTimeout(nextA, 900)};
-function delayedUpdate() {window.setTimeout(update, 900)};
+function delayedQ() {window.setTimeout(nextQ, delay + 200)};
+function delayedA() {window.setTimeout(nextA, delay + 200)};
+function delayedUpdate() {window.setTimeout(update, delay + 200)};
 
 
 
