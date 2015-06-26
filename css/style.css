@@ -48,8 +48,9 @@ h1 {
 #lily {
 	position:absolute;
 	z-index:999;
-	margin-left:14%;
+	left:-14%;
 	bottom:-35%;
+	align-self:flex-start;
 }
 
 .centerdiv {
@@ -67,12 +68,13 @@ h1 {
 	align-items:flex-end;
 	align-content:flex-end;
 	flex-flow: row nowrap;
+	justify-content:center;
 }
 
 .qdiv, .adiv {
 	position:relative;
-	left:22%;
-	width:43vw;
+	left:21%;
+	width:42vw;
 	text-align:center;
 }
 
@@ -83,19 +85,16 @@ h1 {
 	align-content:center;
 	justify-content:center;
 	flex-flow: row nowrap;
-	border:blue 2px solid;
-}
-
-.statusdiv {
-	background-image: url(../images/statusdiv.png);
 }
 
 .content {
 	background-image: url(../images/bg.png);
 	background-size: 100% 100%;
 	height:100vh;
-	font-family:"flanker_griffo";
-	line-height:400%;
+	font-family:"Lusitana", serif;
+	font-weight:400;
+	line-height:150%;
+	box-shadow: 5px 5px black;
 }
 
 body {
@@ -115,7 +114,6 @@ body {
 	flex-flow:row wrap;
 	align-items:center;
 	align-content:center;
-	border: blue solid 2px;
 	justify-content:center;
 }
 
@@ -129,34 +127,50 @@ body {
 	display:inline-block;
 	z-index:10;
 	height:25%;
-	flex: 1 1 main-size;
+	flex: 1 1 auto;
 	min-width:45%;
-	font-size:1vw;
+	max-width:45%;
+	display:flex;
+	flex-flow:row wrap;
+	align-items:center;
+	align-content:center;
+	justify-content:center;
+	font-size:1.5vw;
 }
 
-#q2, #q3, #q4, #q5, #q6, #q7, #q8, #q9, #q10 {
-	display: none;
-}
 
 .yesbutton {
-	width:100%;
-	height:100%;
 	position:relative;
 	z-index:999;
 	display:flex;
 	flex: 1 1 main-size;
+	font-size:6vw;
+	text-align:center;
+	align-items:center;
+	align-content:center;
+	justify-content:center;
+	background:none;
+	height:70%;
+	width:70%;
+	border: solid 2px #e13261;
+	color: #e13261;
 	border-radius:30px;
+	flex: 1 1 main-size;
+	flex-flow: row nowrap;
+
 }
 
 .yesbutton p {
+	flex: 1 1 auto;
 	position:relative;
-	text-align:center;
-	font-size:4vw;
-	line-height:100%;
+	height:auto;
+	margin:0;
 }
 
+
 .beginQuestion {
-	position:absolute;
+	position:relative;
+	text-align:center;
 	font-size:4vh;
 	width:100%;
 	margin:0;
@@ -164,14 +178,18 @@ body {
 	margin-bottom:10%;	
 	flex: 1 1 auto;
 	display:flex;
+	justify-content:center;
+	align-content:center;
+	align-items:center;
 	flex-flow: row wrap;
 	z-index:10;
 	bottom:0;
+	line-height:150%;
 }
 
-.status, .outOfTen, .percentCorrect, .explanationBlock {
+.status, .outOfTen, .percentCorrect {
 	text-align:center;
-	font-size:4vh;
+	font-size:3vw;
 }
 
 .status {
@@ -189,15 +207,18 @@ body {
 	position:relative;
 	width:100%;
 	height:35%;
+	padding-left:5%;
 	flex: 3 3 auto;
 	display:flex;
 	flex-flow:row nowrap;
+	align-items:center;
+	align-content:center;
+	justify-content:center;
 }
 
 .percentCorrect p {
 	float: right;
 	font-size:4vh;
-	bottom:15%;
 	position:relative;
 	flex: 1 1 auto;
 }
@@ -208,6 +229,14 @@ body {
 	height:65%;
 	float:left;
 	flex: 1 1 auto;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+}
+
+.fraction {
+	margin:0;
+	flex: 1 1 auto;
 }
 
 
@@ -217,9 +246,11 @@ body {
 	width:63%;
 	float:right;
 	display:flex;
-	font-size:5vh;
+	font-size:2vw;
 	flex: 2 2 auto;
-	align-contents:center;
+	align-content:center;
+	justify-content:center;
+	align-items:center;
 }
 
 .statusBar {
@@ -228,8 +259,6 @@ body {
 	position:relative;
 	width:80%;
 	height:70%;
-	top:15%;
-	margin-left:5%;
 	float:left;
 	flex:3 3 auto;
 }
@@ -244,9 +273,6 @@ body {
 	margin-top:0;
 }
 
-.explanationBlock p {
-	margin-bottom:0;
-}
 
 @media (orientation:landscape) and (min-width: 1500px) {
 
@@ -309,13 +335,14 @@ body {
 
 
 .beginQuestion {
-	position:absolute;
+	position:relative;
 	font-size:2vw;
 	width:100%;
 	margin:0;
 	height:30%;
 	margin-bottom:10%;	
 	flex: 1 1 auto;
+	display:flex;
 }
 
 .qdiv, .adiv {
@@ -347,7 +374,7 @@ body {
 	background:none;
 	height:70%;
 	width:70%;
-	border: solid 2px #e13261;
+	border: double 2px #e13261;
 	color: #e13261;
 	border-radius:30px;
 	flex: 1 1 main-size;
@@ -355,20 +382,18 @@ body {
 	flex-flow: row nowrap;
 	align-items: center;
 	justify-content:center;
+	font-size:4vw;
 }
 
-.yesbutton p {
-	position:relative;
-	margin:0;
-	flex: 1 1 auto;
-	width:100%;
-	text-align:center;
-	height:80%;
-}
+
 
 .explanationBlock {
 	font-size:3vh;
 	line-height:100%;
+}
+
+.fraction {
+	font-size:3vh;
 }
 
 

@@ -70,6 +70,7 @@ $bar = $('.bar'),
 $fraction = $('.fraction'),
 $percent = $('.percent'),
 $statusBar = $('.statusBar');
+$question = $('.beginQuestion');
 
 								// MAKING FUNCTIONS
 
@@ -112,13 +113,10 @@ function update() {
 	$percent.text(percentCorrect + '%');
 	
 		// changes the color of the background depending on the percent
-	if (percentCorrect >= 65 || percentCorrect == NaN) {
-		$bar.animate({
-			backgroundColor: 'green'}, 800);
-	}
-	else if (percentCorrect <= 65 && isNaN(percentCorrect) != true) {
-		$bar.css({'background-color': '#e13261'});
-		};
+};
+
+function lastUpdate() {
+	$percent.text(percentCorrect + '%');
 };
 
 var delay;
@@ -131,42 +129,42 @@ function barUpdate() {
 			$bar.animate({
 				backgroundColor: 'green',
 				width: percentCorrect + '%'
-			}, 3000);
+			}, 2000);
 		}
 		else if (percentCorrect <= 65 && isNaN(percentCorrect) != true) {
 			$bar.animate({
 			backgroundColor: '#e13261',
-			width: percentCorrect + '%'}, 3000);
+			width: percentCorrect + '%'}, 2000);
 			};
-			delay = 3000;
+			delay = 2000;
 		}
 	else if (Math.abs(($bar.width()/$statusBar.width()) - percentCorrect) >= 30) {
 		if (percentCorrect >= 65 || percentCorrect == NaN) {
 			$bar.animate({
 				backgroundColor: 'green',
 				width: percentCorrect + '%'
-			}, 1500);
+			}, 1000);
 		}
 		else if (percentCorrect <= 65 && isNaN(percentCorrect) != true) {
 			$bar.animate({
 			backgroundColor: '#e13261',
-			width: percentCorrect + '%'}, 1500);
+			width: percentCorrect + '%'}, 1000);
 			};
-			delay = 1500;
+			delay = 1000;
 		}
 	else if (Math.abs(($bar.width()/$statusBar.width()) - percentCorrect) >= 10) {
 		if (percentCorrect >= 65 || percentCorrect == NaN) {
 			$bar.animate({
 				backgroundColor: 'green',
 				width: percentCorrect + '%'
-			}, 700);
+			}, 600);
 		}
 		else if (percentCorrect <= 65 && isNaN(percentCorrect) != true) {
 			$bar.animate({
 			backgroundColor: '#e13261',
-			width: percentCorrect + '%'}, 700);
+			width: percentCorrect + '%'}, 600);
 			};
-			delay = 700;
+			delay = 600;
 		}
 		
 	else  {
@@ -174,21 +172,21 @@ function barUpdate() {
 			$bar.animate({
 				backgroundColor: 'green',
 				width: percentCorrect + '%'
-			}, 300);
+			}, 200);
 		}
 		else if (percentCorrect <= 65 && isNaN(percentCorrect) != true) {
 			$bar.animate({
 			backgroundColor: '#e13261',
-			width: percentCorrect + '%'}, 300);
+			width: percentCorrect + '%'}, 200);
 			};
-			delay = 300;
+			delay = 200;
 		};
 };
 
 // for the beginning, when the NaN is confusing, just set the problematic things to be zero
 function setZero() {
 	$percent.text('0%');
-	$bar.css({'width': '0%'});
+	$bar.css({'width': 0});
 };
 
 
@@ -217,10 +215,30 @@ function setCurrent() {
 		total = iQ;
 		percentCorrect = parseInt((numCorrect/total)*100);
 };
+
+function hideAll() {
+	$question.hide();
+	clear();
+};
+
+//should set everything back to zero again??
+
+function reset() {
+	iQ = 0;
+	total = iQ;
+	numCorrect = 0;
+	$('.explanationBlock').text('');
+	update();
+	setCurrent();
+	setZero();
+	barUpdate;
+};
+
 // want the change to take a bit so you can see whether your answer is correct or not
 function delayedQ() {window.setTimeout(nextQ, delay + 200)};
 function delayedA() {window.setTimeout(nextA, delay + 200)};
 function delayedUpdate() {window.setTimeout(update, delay + 200)};
+function delayedHide() {window.setTimeout(hideAll(), 400)};
 
 
 
@@ -233,24 +251,50 @@ moveOn('.content', '.yesbutton');
 	
 
 // validates answer when you click, makes the answer button green and stuff
-	$ans.on('click', '.answerbox', function() {
-		if ($(this).text() == currentQ.answer) {
+	$ans.on('click', '.answerbox', function isCorrect() {
+		$('.explanationBlock').text('');
+		if (iQ < 10) {
+			if ($(this).text() == currentQ.answer) {
 			$(this).css({'background-color': 'green', 'color': 'white'})
 					.text('CORRECT!');
 			numCorrect++;
 		}
+			else {
+				$(this).css({'background-color': 'red'})
+						.text('INCORRECT :(');
+				$('.explanationBlock').text('Correct Answer: ' + currentQ.answer);
+			};
+			$('.answerbox').css({'pointer-events': 'none'});
+			setCurrent();
+			barUpdate();
+			delayedQ();
+			delayedA();
+			iQ++;
+			delayedUpdate();
+	}
 		else {
-			$(this).css({'background-color': 'red'})
-					.text('INCORRECT :(');
+			setCurrent();
+			barUpdate();
+			delayedHide();
+			if (percentCorrect >= 65) {
+				$question.text("Congratulations!  You got " + percentCorrect + "%" + " correct!");
+					}
+			else {
+				$question.text("You only got " + percentCorrect + "% correct :(.  Sounds like you have a bit of learning to do!");
+					};
+			$question.show();
+			$ans.append('<button class="answerbox toInfo">' + 'Click here to learn more!' + '</button>');
+			$ans.append('<button class="answerbox tryAgain">' + 'Click here to try again!' + '</button>');
+
+			$ans.on('click', '.toInfo', function() {
+				event.preventDefault();
+			});
+
+			$ans.on('click', '.tryAgain', function() {
+				reset();
+				
+			});
 		};
-		console.log('prior to next increment, ' + iQ + ' is iQ.');
-		setCurrent();
-		barUpdate();
-		delayedQ();
-		delayedA();
-		iQ++;
-		delayedUpdate();
-		console.log(iQ);
 	});
 
 
