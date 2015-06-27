@@ -64,7 +64,7 @@ percentCorrect = numCorrect/total;
 // shortcut variables
 $yesBut = $('.yesbutton'),
 $ans = $('.answers'),
-$this = $(this),
+$this = $('this'),
 $pC = $('.percentCorrect'),
 $bar = $('.bar'),
 $fraction = $('.fraction'),
@@ -111,8 +111,7 @@ function nextA() {
 function update() {
 	$fraction.text(iQ + '/10');
 	$percent.text(percentCorrect + '%');
-	
-		// changes the color of the background depending on the percent
+
 };
 
 function lastUpdate() {
@@ -121,73 +120,67 @@ function lastUpdate() {
 
 var delay;
 
+function colorChange(x) {
+	var x = x;
+		if (percentCorrect >= 65 || percentCorrect == NaN) {
+			$bar.animate({
+				backgroundColor: 'green',
+				width: percentCorrect + '%'
+			}, x);
+		}
+		else if (percentCorrect <= 65 && isNaN(percentCorrect) != true) {
+			$bar.animate({
+			backgroundColor: '#e13261',
+			width: percentCorrect + '%'}, x);
+			};
+			delay = x + 600;
+};
+
 //we want this to be separate from main update so that  it starts as soon as you click your answer
 function barUpdate() {
 	// changes the color of the background depending on the percent
 	if (Math.abs(($bar.width()/$statusBar.width()) - percentCorrect) == 100 ) {
-		if (percentCorrect >= 65 || percentCorrect == NaN) {
-			$bar.animate({
-				backgroundColor: 'green',
-				width: percentCorrect + '%'
-			}, 2000);
-		}
-		else if (percentCorrect <= 65 && isNaN(percentCorrect) != true) {
-			$bar.animate({
-			backgroundColor: '#e13261',
-			width: percentCorrect + '%'}, 2000);
-			};
-			delay = 2000;
+		colorChange(2000);
 		}
 	else if (Math.abs(($bar.width()/$statusBar.width()) - percentCorrect) >= 30) {
-		if (percentCorrect >= 65 || percentCorrect == NaN) {
-			$bar.animate({
-				backgroundColor: 'green',
-				width: percentCorrect + '%'
-			}, 1000);
+		colorChange(1500);
 		}
-		else if (percentCorrect <= 65 && isNaN(percentCorrect) != true) {
-			$bar.animate({
-			backgroundColor: '#e13261',
-			width: percentCorrect + '%'}, 1000);
-			};
-			delay = 1000;
-		}
-	else if (Math.abs(($bar.width()/$statusBar.width()) - percentCorrect) >= 10) {
-		if (percentCorrect >= 65 || percentCorrect == NaN) {
-			$bar.animate({
-				backgroundColor: 'green',
-				width: percentCorrect + '%'
-			}, 600);
-		}
-		else if (percentCorrect <= 65 && isNaN(percentCorrect) != true) {
-			$bar.animate({
-			backgroundColor: '#e13261',
-			width: percentCorrect + '%'}, 600);
-			};
-			delay = 600;
-		}
-		
-	else  {
-		if (percentCorrect >= 65 || percentCorrect == NaN) {
-			$bar.animate({
-				backgroundColor: 'green',
-				width: percentCorrect + '%'
-			}, 200);
-		}
-		else if (percentCorrect <= 65 && isNaN(percentCorrect) != true) {
-			$bar.animate({
-			backgroundColor: '#e13261',
-			width: percentCorrect + '%'}, 200);
-			};
-			delay = 200;
-		};
+	else {
+		colorChange(900);
+	};
 };
 
 // for the beginning, when the NaN is confusing, just set the problematic things to be zero
 function setZero() {
 	$percent.text('0%');
-	$bar.css({'width': 0});
+	$bar.animate({
+				backgroundColor: 'green',
+				width: 0
+			}, 2000);
 };
+
+function clearResetB() {
+	$('.tryAgain').remove();
+	$('.toInfo').remove();
+};
+
+// these set click handlers for buttons to appear at the end
+
+function tryAgain() {
+	clearResetB();
+	reset();
+	nextQ();
+	nextA();
+};
+
+$ans.on('click', '.toInfo', function() {
+				event.preventDefault();
+			});
+
+$ans.on('click', '.tryAgain', function() {
+	barUpdate();
+	delayTry();
+});
 
 
 //this makes the new question/new answer appear!  Unfortunately I was not able to implement it in
@@ -231,15 +224,38 @@ function reset() {
 	update();
 	setCurrent();
 	setZero();
-	barUpdate;
 };
 
-// want the change to take a bit so you can see whether your answer is correct or not
-function delayedQ() {window.setTimeout(nextQ, delay + 200)};
-function delayedA() {window.setTimeout(nextA, delay + 200)};
-function delayedUpdate() {window.setTimeout(update, delay + 200)};
-function delayedHide() {window.setTimeout(hideAll(), 400)};
+// shows the question again after being hidden
+function showQ() {
+	$question.show();
+};
 
+// this adds the reset and info buttons at the end
+function addButtons() {
+	$ans.append('<button class="toInfo">' + 'Click here to learn more!' + '</button>');
+	$ans.append('<button class="tryAgain">' + 'Click here to try again!' + '</button>');	
+	};
+
+function finalGradeGood() {
+	$question.text("Congratulations!  You got " + percentCorrect + "%" + " correct!");
+};
+
+function finalGradeBad() {
+	$question.text("You only got " + percentCorrect + "% correct :(.  Sounds like you have a bit of learning to do!");
+};
+
+
+// want the change to take a bit so you can see whether your answer is correct or not
+function delayedQ() {window.setTimeout(nextQ, delay)};
+function delayedA() {window.setTimeout(nextA, delay)};
+function delayedUpdate() {window.setTimeout(update, delay)};
+function delayedHide() {window.setTimeout(hideAll, 1300)};
+function delayAdd() {window.setTimeout(addButtons, 1300)};	
+function delayQ() {window.setTimeout(showQ, 1300)};	
+function delayTry() {window.setTimeout(tryAgain, 1000)};
+function delayGood() {window.setTimeout(finalGradeGood, 1300)};
+function delayBad() {window.setTimeout(finalGradeBad, 1300)};
 
 
 //assigns 'moveOn' function to yesbutton
@@ -253,47 +269,46 @@ moveOn('.content', '.yesbutton');
 // validates answer when you click, makes the answer button green and stuff
 	$ans.on('click', '.answerbox', function isCorrect() {
 		$('.explanationBlock').text('');
-		if (iQ < 10) {
-			if ($(this).text() == currentQ.answer) {
-			$(this).css({'background-color': 'green', 'color': 'white'})
-					.text('CORRECT!');
+		$('.answerbox').css({'pointer-events': 'none'});
+
+// if the one you clicked is the answer to currentQ, do these things no matter what
+		if ($(this).text() == currentQ.answer) {
+			$(this).css({
+				'background-color': 'green',
+					'color': 'white'})
+						.text('CORRECT!');
 			numCorrect++;
-		}
-			else {
-				$(this).css({'background-color': 'red'})
-						.text('INCORRECT :(');
-				$('.explanationBlock').text('Correct Answer: ' + currentQ.answer);
-			};
-			$('.answerbox').css({'pointer-events': 'none'});
 			setCurrent();
 			barUpdate();
+		}
+		else {
+				$(this).css({
+					backgroundColor: 'red'})
+						.text('INCORRECT :(');
+				$('.explanationBlock').text('Correct Answer: ' + currentQ.answer);
+				setCurrent();
+				barUpdate();
+			};
+// if you are not on the last question, bring up the new questions and stuff!
+		if (iQ < 10) {
 			delayedQ();
 			delayedA();
 			iQ++;
 			delayedUpdate();
 	}
+
+	// if you ARE On the last question, do special things
 		else {
-			setCurrent();
-			barUpdate();
+			lastUpdate();
 			delayedHide();
-			if (percentCorrect >= 65) {
-				$question.text("Congratulations!  You got " + percentCorrect + "%" + " correct!");
-					}
-			else {
-				$question.text("You only got " + percentCorrect + "% correct :(.  Sounds like you have a bit of learning to do!");
-					};
-			$question.show();
-			$ans.append('<button class="answerbox toInfo">' + 'Click here to learn more!' + '</button>');
-			$ans.append('<button class="answerbox tryAgain">' + 'Click here to try again!' + '</button>');
-
-			$ans.on('click', '.toInfo', function() {
-				event.preventDefault();
-			});
-
-			$ans.on('click', '.tryAgain', function() {
-				reset();
-				
-			});
+				if (percentCorrect >= 65) {
+					delayGood();
+						}
+				else {
+					delayBad();
+						};
+			delayAdd();
+			delayQ();
 		};
 	});
 
