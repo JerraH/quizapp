@@ -36,13 +36,21 @@ html {
 	margin-left:17%;
 	margin-top:0;
 	text-align:center;
+	display:flex;
+	flex-flow: row wrap;
+	align-content:center;
+	justify-content:center;
+	align-items:center;
+
 }
 
 h1 {
 	font-family:"TravelingTypewriter";
 	font-size:3vw;
 	line-height:100%;
+	margin:0;
 	padding:0;
+	flex: 1 1 auto;
 }
 
 #lily {
@@ -111,13 +119,13 @@ body {
 	display:none;
 	flex: 1 1 auto;
 	display:flex;
-	flex-flow:row wrap;
+	flex-flow: row wrap;
 	align-items:center;
 	align-content:center;
 	justify-content:center;
 }
 
-.answerbox {
+.answerbox, .toInfo, .tryAgain {
 	border: solid 2px #e13261;
 	border-radius:30px;
 	background:none;
@@ -126,7 +134,7 @@ body {
 	margin-right:2%;
 	display:inline-block;
 	z-index:10;
-	height:25%;
+	height:35%;
 	flex: 1 1 auto;
 	min-width:45%;
 	max-width:45%;
@@ -213,14 +221,18 @@ body {
 	flex-flow:row nowrap;
 	align-items:center;
 	align-content:center;
-	justify-content:center;
+	justify-content:space-between;
 }
 
-.percentCorrect p {
+.percent {
+	padding-right:4%;
+	padding-top:3%;
+	margin:0;
 	float: right;
 	font-size:4vh;
 	position:relative;
 	flex: 1 1 auto;
+	min-width:25%;
 }
 
 .outOfTen {
@@ -261,12 +273,16 @@ body {
 	height:70%;
 	float:left;
 	flex:3 3 auto;
+	border-radius:20px;
+	z-index:15;
 }
 
 .bar {
 	height:100%;
 	width:0%;
 	background-color: green;
+	border-radius:15px;
+	z-index:14;
 }
 
 #outOfTenText {
@@ -305,7 +321,6 @@ body {
 	position:relative;
 	padding:0;
 	margin:0;
-	top:33%;
 }
 
 .content {
@@ -323,14 +338,6 @@ body {
 	right:2%;
 	width:75%;
 	height:60%;
-}
-
-
-.percent {
-	margin:0;
-	padding-top:3%;
-	padding-right:4%;
-	position:absolute;
 }
 
 
@@ -393,7 +400,12 @@ body {
 }
 
 .fraction {
-	font-size:3vh;
+	font-size:4vh;
+}
+
+.answerbox, .toInfo, .tryAgain {
+	font-size:1vw;
+	height:35%;
 }
 
 
